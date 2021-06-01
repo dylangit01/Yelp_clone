@@ -1,6 +1,7 @@
 import express from 'express';
 import dotenv from 'dotenv';
-import morgan from 'morgan'
+import morgan from 'morgan';
+import db from './db/index.js'	// ES6 module has to have a completed path
 
 const app = express();
 dotenv.config();
@@ -18,7 +19,9 @@ app.use(express.json());
 app.use(morgan('dev'))
 
 // Get all Restaurants
-app.get('/api/restaurants', (req, res) => {
+app.get('/api/restaurants', async (req, res) => {
+	const allRestaurants = await db.query("select * from restaurants")
+	console.log(allRestaurants.rows);
 	// res.send('these are restaurants')
 	res.status(200).json({
 		status: 'success',
