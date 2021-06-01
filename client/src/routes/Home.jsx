@@ -1,9 +1,12 @@
 import React from 'react'
+import AddRestaurant from '../components/AddRestaurant';
+import Header from '../components/Header';
 
 const Home = () => {
 	return (
 		<div>
-			Home Page
+			<Header />
+			<AddRestaurant/>
 		</div>
 	)
 }
