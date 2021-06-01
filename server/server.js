@@ -61,8 +61,6 @@ app.post('/api/restaurants', async (req, res) => {
 		const result = await db.query(
 			'INSERT INTO restaurants (name, location, price_range) values ($1, $2, $3) RETURNING *',
 			[name, location, price_range])
-		
-		console.log(result.rows[0]);
 
 		res.status(201).json({
 			status: 'success',
@@ -76,9 +74,22 @@ app.post('/api/restaurants', async (req, res) => {
 })
 
 // Update a Restaurant
-app.put('/api/restaurants/:id', (req, res) => {
-	console.log(req.params.id);
-	res.status(200).json(req.body)
+app.put('/api/restaurants/:id', async (req, res) => {
+	try {
+		const { name, location, price_range } = req.body;
+		const result = await db.query(
+			'UPDATE restaurants SET name = $1, location = $2, price_range= $3 where id = $4 RETURNING *',
+			[name, location, price_range, req.params.id]);
+		
+		res.status(201).json({
+			status: 'success',
+			data: {
+				restaurant: result.rows[0]
+			}
+		});
+	} catch (err) {
+		console.log(err);
+	}
 })
 
 // Delete a Restaurant
