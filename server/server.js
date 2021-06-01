@@ -23,7 +23,6 @@ app.get('/api/restaurants', async (req, res) => {
 	try {
 		const results = await db.query("select * from restaurants")		//db.query is a promise
 		
-		// res.send('these are restaurants')
 		res.status(200).json({
 			status: 'success',
 			results: results.rows.length,
@@ -36,14 +35,23 @@ app.get('/api/restaurants', async (req, res) => {
 	}
 })
 
-app.get('/api/restaurants/:id', (req, res) => {
-	console.log(req.params.id);
-	res.status(200).json({
-		status: 'success',
-		data: {
-			restaurant: 'Burger King'
-		}
-	})
+// Get single Restaurant
+app.get('/api/restaurants/:id', async (req, res) => {
+	try {
+		// Parameterized query, bad practice to use template string in db.query directly
+		const text = 'select * from restaurants where id = $1';
+		const values = [req.params.id]
+		const result = await db.query(text, values)
+
+		res.status(200).json({
+			status: 'success',
+			data: {
+				restaurant: result.rows[0],
+			},
+		});
+	} catch (err) {
+		console.log(err);
+	}
 })
 
 // Create a Restaurant
