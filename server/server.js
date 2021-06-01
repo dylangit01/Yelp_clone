@@ -20,15 +20,20 @@ app.use(morgan('dev'))
 
 // Get all Restaurants
 app.get('/api/restaurants', async (req, res) => {
-	const allRestaurants = await db.query("select * from restaurants")
-	console.log(allRestaurants.rows);
-	// res.send('these are restaurants')
-	res.status(200).json({
-		status: 'success',
-		data: {
-			restaurant: ['wendys', 'mcdonalds']
-		}
-	});
+	try {
+		const results = await db.query("select * from restaurants")		//db.query is a promise
+		
+		// res.send('these are restaurants')
+		res.status(200).json({
+			status: 'success',
+			results: results.rows.length,
+			data: {
+				restaurants: results.rows
+			}
+		});
+	} catch (err) {
+		console.log(err);
+	}
 })
 
 app.get('/api/restaurants/:id', (req, res) => {
