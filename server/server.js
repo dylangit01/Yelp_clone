@@ -6,7 +6,7 @@ const app = express();
 dotenv.config();
 
 // body-parser extracts the entire body portion of an incoming request stream and exposes it on req.body.
-app.use(express.json())
+app.use(express.json());
 
 // Middleware part, has to be put at the top, we can use middleware to send info back to user
 // app.use('/api/restaurants', (req, res, next) => {
@@ -29,12 +29,32 @@ app.get('/api/restaurants', (req, res) => {
 })
 
 app.get('/api/restaurants/:id', (req, res) => {
-	console.log(req.params);
+	console.log(req.params.id);
+	res.status(200).json({
+		status: 'success',
+		data: {
+			restaurant: 'Burger King'
+		}
+	})
 })
 
-app.post('/api/restaurant', (req, res) => {
+// Create a Restaurant
+app.post('/api/restaurants', (req, res) => {
 	console.log(req.body);
-	res.json(req.body)
+	res.status(201).json(req.body)
+})
+
+// Update a Restaurant
+app.put('/api/restaurants/:id', (req, res) => {
+	console.log(req.params.id);
+	res.status(200).json(req.body)
+})
+
+// Delete a Restaurant
+app.delete('/api/restaurants/:id', (req, res) => {
+	res.status(204).json({
+		status:'success'
+	})
 })
 
 const PORT = process.env.PORT || 3040;
