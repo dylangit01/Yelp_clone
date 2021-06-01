@@ -9,3 +9,4 @@ CREATE TABLE restaurants (
 
 
 INSERT INTO restaurants (name, location, price_range) values ('Wendys', 'New Yorks', 3);
+
