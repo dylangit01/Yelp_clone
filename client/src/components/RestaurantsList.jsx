@@ -1,19 +1,25 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useContext } from 'react';
 import restaurantsFinder from '../apis/restaurantsFinder'
+import { RestaurantsContext } from '../context/contextAPI';
 
 export const RestaurantsList = () => {
+	// Destructuring setRestaurants from useContext
+	const {setRestaurants} = useContext(RestaurantsContext)
 
 	useEffect(() => {
-		try {
-			const fetchRestaurants = async () => {
-				const response = await restaurantsFinder.get('/')
-				console.log(response);
+		// Do not directly using async in useEffect arrow function as useEffect doesn't any return value
+		const fetchRestaurants = async () => {
+			try {
+				const response = await restaurantsFinder.get('/');
+				console.log(response.data.data.restaurants);
+				// Use useContext-setRestaurants to update restaurants
+				setRestaurants(response.data.data.restaurants);
+			} catch (err) {
+				console.log(err);
 			}
-			fetchRestaurants();
-		} catch (err) {
-
 		};
-	},[])
+		fetchRestaurants();
+	}, [setRestaurants]);
 
 
 	return (
