@@ -1,3 +1,5 @@
+-- echo 'export PATH="/usr/local/sbin:$PATH"' >> ~/.zshrc
+
 DROP TABLE IF EXISTS restaurants CASCADE;
 
 CREATE TABLE restaurants (
@@ -11,4 +13,5 @@ CREATE TABLE restaurants (
 INSERT INTO restaurants (name, location, price_range) values ('Wendys', 'New Yorks', 3);
 
 UPDATE restaurants SET name = 'red lobster', location = 'miami', price_range=3 where id = 2;
+
 

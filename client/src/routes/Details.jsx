@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import restaurantsFinder from '../apis/restaurantsFinder';
+import restaurantsFinder from '../api/restaurantsFinder';
 import { RestaurantsContext } from '../context/contextAPI';
 
 const Details = () => {
