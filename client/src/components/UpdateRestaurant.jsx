@@ -11,7 +11,7 @@ const UpdateRestaurant = () => {
 	// In order to make sure which restaurant with correct id that needs to be updated
 	// react-router-dom has a hook called useParams can easily achieve that
 	const { id } = useParams();
-	
+
 	// const { restaurant, setRestaurant } = useContext(RestaurantsContext);
 	
 	// We are not using contextAPI to fetch the specific restaurant in this page because if jump to this page's url directly(without previous went to the main page), it's restaurants list hasn't been fetched from database, which will show undefined, so in order solve this problem, we need to use useEffect to fetch the data whenever open the update page directly
@@ -20,7 +20,12 @@ const UpdateRestaurant = () => {
 		const fetchSingleRestaurantData = async (id) => {
 			try {
 				const response = await restaurantsFinder.get(`/${id}`)
-				console.log(response.data.data.restaurant);
+				const { name, location, price_range } = response.data.data.restaurant;
+				
+				// In order to set the value for each input tag
+				setName(name);
+				setLocation(location);
+				setPriceRange(price_range);
 			} catch (err) {
 				console.log(err);
 			}
