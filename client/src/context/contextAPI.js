@@ -19,18 +19,19 @@ export const RestaurantsContextProvider = props => {		// Used in App.jsx to wrap
 	const deleteRestaurant = (id) => {
 		setRestaurants(restaurants.filter(item => item.id !== id))
 	}
-
+ 
+	// Not need for below function in update page as setRestaurant in useEffect, will be triggered whenever the restaurants change
 	// 2.3 Create updateRestaurant fn to update single restaurant
-	const updateRestaurant = (id, response) => {
-		const { name, location, price_range } = response.data.data.restaurant;
-		return restaurants.map(rest=> rest.id === id ? {...rest, name, location, price_range} : rest )
-	}
+	// const updateRestaurant = (id, response) => {
+	// 	const { name, location, price_range } = response.data.data.restaurant;
+	// 	return restaurants.map(rest=> rest.id === id ? {...rest, name, location, price_range} : rest )
+	// }
 
 	return (
 		// Pass down the restaurants object AND the setRestaurants fn to every components, so that components
 		// can also update the states, after this setup, goes to App component;
 		<RestaurantsContext.Provider
-			value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant, updateRestaurant }}
+			value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant }}
 		>
 			{props.children}
 		</RestaurantsContext.Provider>

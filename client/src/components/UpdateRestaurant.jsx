@@ -1,6 +1,6 @@
-import React, {useState, useContext, useEffect } from 'react';
+import React, {useState, useEffect } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
-import { RestaurantsContext } from '../context/contextAPI'
+// import { RestaurantsContext } from '../context/contextAPI'
 import restaurantsFinder from '../apis/restaurantsFinder';
 
 const UpdateRestaurant = () => {
@@ -11,8 +11,6 @@ const UpdateRestaurant = () => {
 	// In order to make sure which restaurant with correct id that needs to be updated
 	// react-router-dom has a hook called useParams can easily achieve that
 	const { id } = useParams();
-
-	const { updateRestaurant } = useContext(RestaurantsContext);
 	
 	// We are not using contextAPI to fetch the specific restaurant in this page because if jump to this page's url directly(without previous went to the main page), it's restaurants list hasn't been fetched from database, which will show undefined, so in order solve this problem, we need to use useEffect to fetch the data whenever open the update page directly
 
@@ -33,21 +31,17 @@ const UpdateRestaurant = () => {
 		fetchSingleRestaurantData(id);
 	}, [id])
 
+	// useHistory hook here
+	let history = useHistory();
+
 	const handleSubmit = async (e) => {
 		e.preventDefault();
-		const response = await restaurantsFinder.put(`/${id}`, {
+		await restaurantsFinder.put(`/${id}`, {
 			name,
 			location,
 			price_range
 		});
-
-		// use contextAPI fn here to update single restaurant
-		updateRestaurant(id, response)
-	}
-
-	let history = useHistory();
-	const backToMainPage = () => {
-		history.push(`/`)
+		history.push(`/`);
 	}
 
 	return (
@@ -99,9 +93,9 @@ const UpdateRestaurant = () => {
 				</div>
 				<button className='btn btn-outline-primary'>Update</button>
 				{/* Add type="button", otherwise show warning */}
-				<button type="button" onClick={backToMainPage} className='btn btn-outline-danger float-right'>
+				{/* <button type="button" className='btn btn-outline-danger float-right'>
 					Back to List
-				</button>
+				</button> */}
 			</form>
 		</div>
 	);
