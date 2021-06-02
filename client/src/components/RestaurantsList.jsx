@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import restaurantsFinder from '../apis/restaurantsFinder'
 import { RestaurantsContext } from '../context/contextAPI';
+import {useHistory} from 'react-router-dom'
 
 export const RestaurantsList = () => {
 	// Destructuring needed context values from useContext
@@ -30,6 +31,13 @@ export const RestaurantsList = () => {
 		}
 	}
 
+	// In order to route to update URL, we can use "history API" by import useHistory component;
+	// This history represent the browser history, we can add URL to history stack
+	let history = useHistory();
+	const handleUpdate = (id) => {
+		history.push(`/restaurants/${id}/update`)
+	}
+
 	return (
 		<div className='list-group text-center'>
 			<table className='table table-dark table-hover'>
@@ -51,7 +59,8 @@ export const RestaurantsList = () => {
 							<td className='align-middle'>{'$'.repeat(price_range)}</td>
 							<td className='align-middle'>Reviews</td>
 							<td>
-								<button className='btn btn-warning'>Update</button>
+								{/* Create onClick event to handle update */}
+								<button onClick={()=> handleUpdate(id)} className='btn btn-warning'>Update</button>
 							</td>
 							<td>
 								<button onClick={() => handelDelete(id)} className='btn btn-danger'>Delete</button>
