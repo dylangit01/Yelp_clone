@@ -4,7 +4,7 @@ import { RestaurantsContext } from '../context/contextAPI';
 
 export const RestaurantsList = () => {
 	// Destructuring setRestaurants from useContext
-	const {setRestaurants} = useContext(RestaurantsContext)
+	const {restaurants, setRestaurants} = useContext(RestaurantsContext)
 
 	useEffect(() => {
 		// Do not directly using async in useEffect arrow function as useEffect doesn't any return value
@@ -36,31 +36,20 @@ export const RestaurantsList = () => {
 					</tr>
 				</thead>
 				<tbody>
-					<tr>
-						<td className='align-middle'>McDonalds</td>
-						<td className='align-middle'>New York</td>
-						<td className='align-middle'>$$</td>
-						<td className='align-middle'>Rating</td>
-						<td>
-							<button className='btn btn-warning'>Update</button>{' '}
-						</td>
-						<td>
-							<button className='btn btn-danger'>Delete</button>{' '}
-						</td>
-					</tr>
-
-					<tr>
-						<td className='align-middle'>McDonalds</td>
-						<td className='align-middle'>New York</td>
-						<td className='align-middle'>$$</td>
-						<td className='align-middle'>Rating</td>
-						<td>
-							<button className='btn btn-warning '>Update</button>{' '}
-						</td>
-						<td>
-							<button className='btn btn-danger '>Delete</button>{' '}
-						</td>
-					</tr>
+					{restaurants && restaurants.map(({ id, name, location, price_range }) => (
+						<tr key={id}>
+							<td className='align-middle'>{name}</td>
+							<td className='align-middle'>{location}</td>
+							<td className='align-middle'>{'$'.repeat(price_range)}</td>
+							<td className='align-middle'>Rating</td>
+							<td>
+								<button className='btn btn-warning'>Update</button>
+							</td>
+							<td>
+								<button className='btn btn-danger'>Delete</button>
+							</td>
+						</tr>
+					))}
 				</tbody>
 			</table>
 		</div>
