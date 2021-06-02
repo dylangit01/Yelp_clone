@@ -21,7 +21,6 @@ export const RestaurantsList = () => {
 		fetchRestaurants();
 	}, [setRestaurants]);
 
-
 	return (
 		<div className='list-group text-center'>
 			<table className='table table-dark table-hover'>
@@ -41,7 +40,7 @@ export const RestaurantsList = () => {
 							<td className='align-middle'>{name}</td>
 							<td className='align-middle'>{location}</td>
 							<td className='align-middle'>{'$'.repeat(price_range)}</td>
-							<td className='align-middle'>Rating</td>
+							<td className='align-middle'>Reviews</td>
 							<td>
 								<button className='btn btn-warning'>Update</button>
 							</td>
