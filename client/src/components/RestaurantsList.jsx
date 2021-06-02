@@ -22,7 +22,8 @@ export const RestaurantsList = () => {
 		fetchRestaurants();
 	}, [setRestaurants]);
 
-	const handelDelete = async (id) => {
+	const handelDelete = async (e, id) => {
+		e.stopPropagation();
 		try {
 			await restaurantsFinder.delete(`/${id}`);
 			deleteRestaurant(id)
@@ -34,8 +35,14 @@ export const RestaurantsList = () => {
 	// In order to route to update URL, we can use "history API" by import useHistory component;
 	// This history represent the browser history, we can add URL to history stack
 	let history = useHistory();
-	const handleUpdate = (id) => {
+	const handleUpdate = (e,id) => {
+		e.stopPropagation();
 		history.push(`/restaurants/${id}/update`)
+	}
+
+	// Handle restaurant details page
+	const handleRestaurantDetails = id => {
+		history.push(`/restaurants/${id}`);
 	}
 
 	return (
@@ -53,17 +60,17 @@ export const RestaurantsList = () => {
 				</thead>
 				<tbody>
 					{restaurants && restaurants.map(({ id, name, location, price_range }) => (
-						<tr key={id}>
+						<tr onClick={()=> handleRestaurantDetails(id)} key={id}>
 							<td className='align-middle'>{name}</td>
 							<td className='align-middle'>{location}</td>
 							<td className='align-middle'>{'$'.repeat(price_range)}</td>
 							<td className='align-middle'>Reviews</td>
 							<td>
 								{/* Create onClick event to handle update */}
-								<button onClick={()=> handleUpdate(id)} className='btn btn-warning'>Update</button>
+								<button onClick={(e)=> handleUpdate(e,id)} className='btn btn-warning'>Update</button>
 							</td>
 							<td>
-								<button onClick={() => handelDelete(id)} className='btn btn-danger'>Delete</button>
+								<button onClick={(e) => handelDelete(e,id)} className='btn btn-danger'>Delete</button>
 							</td>
 						</tr>
 					))}
