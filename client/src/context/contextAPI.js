@@ -4,8 +4,9 @@ export const RestaurantsContext = createContext();	// Used in different componen
 
 export const RestaurantsContextProvider = props => {		// Used in App.jsx to wrap all components
 
-	// 1. Setup the main state that all components will use
+	// 1. Setup the main states that all components will use
 	const [restaurants, setRestaurants] = useState([]);
+	const [selectedRestaurant, setSelectedRestaurant] = useState(null);
 	// 2. Create actions that create/update/delete the main state; (or any other actions to affect states )
 
 	// 2.1 Create addRestaurant fn to update restaurants using spread operator
@@ -31,7 +32,14 @@ export const RestaurantsContextProvider = props => {		// Used in App.jsx to wrap
 		// Pass down the restaurants object AND the setRestaurants fn to every components, so that components
 		// can also update the states, after this setup, goes to App component;
 		<RestaurantsContext.Provider
-			value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant }}
+			value={{
+				restaurants,
+				setRestaurants,
+				addRestaurant,
+				deleteRestaurant,
+				selectedRestaurant,
+				setSelectedRestaurant,
+			}}
 		>
 			{props.children}
 		</RestaurantsContext.Provider>
