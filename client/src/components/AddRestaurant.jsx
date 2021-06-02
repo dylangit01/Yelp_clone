@@ -1,13 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import restaurantsFinder from '../apis/restaurantsFinder';
+import { RestaurantsContext } from '../context/contextAPI';
 
 const AddRestaurant = () => {
 	const [name, setName] = useState('');
 	const [location, setLocation] = useState('');
-	const [priceRange, setPriceRange] = useState('Price Range');
+	const [price_range, setPriceRange] = useState('Price Range');
+
+	const { addRestaurants } = useContext(RestaurantsContext);
+
+	const handleSubmit = async (e) => {
+		// 1. prevent reloading the page, otherwise losing state
+		e.preventDefault();
+		// 2. Use try block and axios api to send post request with data
+		try {
+			const response = await restaurantsFinder.post('/', {
+				name,
+				location,
+				price_range
+			});
+			console.log(response.data.data.restaurant);
+			addRestaurants(response.data.data.restaurant);
+		} catch (err) {
+			console.log(err);
+		}
+	};
 
 	return (
 		<div className='mb-4'>
-			<form action=''>
+			<form onSubmit={handleSubmit}>
 				<div className='row'>
 					<div className='col'>
 						<input
@@ -28,7 +49,11 @@ const AddRestaurant = () => {
 						/>
 					</div>
 					<div className='col'>
-						<select value={priceRange} onChange={(e) => setPriceRange(e.target.value)} className='form-control mr-sm-2'>
+						<select
+							value={price_range}
+							onChange={(e) => setPriceRange(e.target.value)}
+							className='form-control mr-sm-2'
+						>
 							<option disabled>Price Range</option>
 							<option value='1'>$</option>
 							<option value='2'>$$</option>

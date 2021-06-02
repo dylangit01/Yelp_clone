@@ -11,7 +11,7 @@ export const RestaurantsList = () => {
 		const fetchRestaurants = async () => {
 			try {
 				const response = await restaurantsFinder.get('/');
-				console.log(response.data.data.restaurants);
+
 				// Use useContext-setRestaurants to update restaurants
 				setRestaurants(response.data.data.restaurants);
 			} catch (err) {
