@@ -1,6 +1,21 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import restaurantsFinder from '../apis/restaurantsFinder'
 
 export const RestaurantsList = () => {
+
+	useEffect(() => {
+		try {
+			const fetchRestaurants = async () => {
+				const response = await restaurantsFinder.get('/')
+				console.log(response);
+			}
+			fetchRestaurants();
+		} catch (err) {
+
+		};
+	},[])
+
+
 	return (
 		<div className='list-group text-center'>
 			<table className='table table-dark table-hover'>

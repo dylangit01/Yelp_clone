@@ -1,10 +1,14 @@
 import express from 'express';
+import cors from 'cors';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import db from './db/index.js'	// ES6 module has to have a completed path
 
 const app = express();
 dotenv.config();
+
+// Setup CORS middleware
+app.use(cors())
 
 // body-parser extracts the entire body portion of an incoming request stream and exposes it on req.body.
 app.use(express.json());
