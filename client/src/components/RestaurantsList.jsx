@@ -3,8 +3,8 @@ import restaurantsFinder from '../apis/restaurantsFinder'
 import { RestaurantsContext } from '../context/contextAPI';
 
 export const RestaurantsList = () => {
-	// Destructuring setRestaurants from useContext
-	const {restaurants, setRestaurants} = useContext(RestaurantsContext)
+	// Destructuring needed context values from useContext
+	const {restaurants, setRestaurants, deleteRestaurant} = useContext(RestaurantsContext)
 
 	useEffect(() => {
 		// Do not directly using async in useEffect arrow function as useEffect doesn't any return value
@@ -20,6 +20,15 @@ export const RestaurantsList = () => {
 		};
 		fetchRestaurants();
 	}, [setRestaurants]);
+
+	const handelDelete = async (id) => {
+		try {
+			await restaurantsFinder.delete(`/${id}`);
+			deleteRestaurant(id)
+		} catch (err) {
+			console.log(err);
+		}
+	}
 
 	return (
 		<div className='list-group text-center'>
@@ -45,7 +54,7 @@ export const RestaurantsList = () => {
 								<button className='btn btn-warning'>Update</button>
 							</td>
 							<td>
-								<button className='btn btn-danger'>Delete</button>
+								<button onClick={() => handelDelete(id)} className='btn btn-danger'>Delete</button>
 							</td>
 						</tr>
 					))}

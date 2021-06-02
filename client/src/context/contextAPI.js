@@ -10,15 +10,20 @@ export const RestaurantsContextProvider = props => {		// Used in App.jsx to wrap
 
 	// 2.1 Create addRestaurant fn to update restaurants using spread operator
 	// DON'T forget to pass it down to the context Provider value
-	const addRestaurants = (restaurant) => {
+	const addRestaurant = (restaurant) => {
 		setRestaurants([...restaurants, restaurant])
 	}
 
+	// 2.2 Create deleteRestaurant fn to update restaurants using filter fn
+	// DON'T forget to pass this fn down to the context Provider value
+	const deleteRestaurant = (id) => {
+		setRestaurants(restaurants.filter(item => item.id !== id))
+	}
 
 	return (
 		// Pass down the restaurants object AND the setRestaurants fn to every components, so that components
 		// can also update the states, after this setup, goes to App component;
-		<RestaurantsContext.Provider value={{ restaurants, setRestaurants, addRestaurants }}>
+		<RestaurantsContext.Provider value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant }}>
 			{props.children}
 		</RestaurantsContext.Provider>
 	);

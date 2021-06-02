@@ -7,13 +7,14 @@ const AddRestaurant = () => {
 	const [location, setLocation] = useState('');
 	const [price_range, setPriceRange] = useState('Price Range');
 
-	// Import useContext & RestaurantsContext and destructuring addRestaurants fn
-	const { addRestaurants } = useContext(RestaurantsContext);
+	// Import useContext & RestaurantsContext and destructuring addRestaurant fn
+	const { addRestaurant } = useContext(RestaurantsContext);
 
 	const handleSubmit = async (e) => {
 		// 1. prevent reloading the page, otherwise losing state
 		e.preventDefault();
-		// 2. Use try block and axios api to send post request with data and save in response variable
+
+		// 2. Use try block and axios api to send post request with input data and save in response variable
 		try {
 			const response = await restaurantsFinder.post('/', {
 				name,
@@ -22,7 +23,13 @@ const AddRestaurant = () => {
 			});
 
 			// 3. Use contextAPI to update restaurant list globally
-			addRestaurants(response.data.data.restaurant);
+			addRestaurant(response.data.data.restaurant);
+
+			// 4. Reset the input value
+			setName('');
+			setLocation('');
+			setPriceRange('Price Range');
+			
 		} catch (err) {
 			console.log(err);
 		}
