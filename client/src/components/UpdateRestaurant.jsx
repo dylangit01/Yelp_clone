@@ -40,8 +40,8 @@ const UpdateRestaurant = () => {
 			location,
 			price_range
 		});
-		console.log(response);
-		// const { name, location, price_range } = response.data.data.restaurant
+
+		// use contextAPI fn here to update single restaurant
 		updateRestaurant(id, response)
 	}
 
@@ -98,6 +98,7 @@ const UpdateRestaurant = () => {
 					<textarea className='form-control' id='review' rows='3'></textarea>
 				</div>
 				<button className='btn btn-outline-primary'>Update</button>
+				{/* Add type="button", otherwise show warning */}
 				<button type="button" onClick={backToMainPage} className='btn btn-outline-danger float-right'>
 					Back to List
 				</button>
