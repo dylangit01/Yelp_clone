@@ -1,5 +1,5 @@
 import React, {useState, useContext, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 import { RestaurantsContext } from '../context/contextAPI'
 import restaurantsFinder from '../apis/restaurantsFinder';
 
@@ -12,7 +12,7 @@ const UpdateRestaurant = () => {
 	// react-router-dom has a hook called useParams can easily achieve that
 	const { id } = useParams();
 
-	// const { restaurant, setRestaurant } = useContext(RestaurantsContext);
+	const { updateRestaurant } = useContext(RestaurantsContext);
 	
 	// We are not using contextAPI to fetch the specific restaurant in this page because if jump to this page's url directly(without previous went to the main page), it's restaurants list hasn't been fetched from database, which will show undefined, so in order solve this problem, we need to use useEffect to fetch the data whenever open the update page directly
 
@@ -33,10 +33,26 @@ const UpdateRestaurant = () => {
 		fetchSingleRestaurantData(id);
 	}, [id])
 
+	const handleSubmit = async (e) => {
+		e.preventDefault();
+		const response = await restaurantsFinder.put(`/${id}`, {
+			name,
+			location,
+			price_range
+		});
+		console.log(response);
+		// const { name, location, price_range } = response.data.data.restaurant
+		updateRestaurant(id, response)
+	}
+
+	let history = useHistory();
+	const backToMainPage = () => {
+		history.push(`/`)
+	}
 
 	return (
 		<div className='container'>
-			<form>
+			<form onSubmit={handleSubmit}>
 				<div className='form-group'>
 					<label htmlFor='name'>Restaurant Name</label>
 					<input
@@ -82,6 +98,9 @@ const UpdateRestaurant = () => {
 					<textarea className='form-control' id='review' rows='3'></textarea>
 				</div>
 				<button className='btn btn-outline-primary'>Update</button>
+				<button type="button" onClick={backToMainPage} className='btn btn-outline-danger float-right'>
+					Back to List
+				</button>
 			</form>
 		</div>
 	);

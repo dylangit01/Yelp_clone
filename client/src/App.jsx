@@ -8,6 +8,7 @@ import Update from './routes/Update';
 const App = () => {
 	return (
 		// Using context wrap everything inside
+		// Front-end routes and server routes are totally different thing, front-end routes just for page's view change, server routes is based on RESTful API
 		<RestaurantsContextProvider>
 			<Router>
 				<Switch>

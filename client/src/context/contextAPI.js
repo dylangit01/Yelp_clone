@@ -20,10 +20,18 @@ export const RestaurantsContextProvider = props => {		// Used in App.jsx to wrap
 		setRestaurants(restaurants.filter(item => item.id !== id))
 	}
 
+	// 2.3 Create updateRestaurant fn to update single restaurant
+	const updateRestaurant = (id, response) => {
+		const { name, location, price_range } = response.data.data.restaurant;
+		return restaurants.map(rest=> rest.id === id ? {...rest, name, location, price_range} : rest )
+	}
+
 	return (
 		// Pass down the restaurants object AND the setRestaurants fn to every components, so that components
 		// can also update the states, after this setup, goes to App component;
-		<RestaurantsContext.Provider value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant }}>
+		<RestaurantsContext.Provider
+			value={{ restaurants, setRestaurants, addRestaurant, deleteRestaurant, updateRestaurant }}
+		>
 			{props.children}
 		</RestaurantsContext.Provider>
 	);
