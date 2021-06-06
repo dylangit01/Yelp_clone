@@ -1,0 +1,1 @@
+INSERT INTO reviews (name, review, rating) values ('carl', 'restaurant was awesome', 5);
